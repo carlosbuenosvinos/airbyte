@@ -97,6 +97,7 @@ The connector implements retry logic with exponential backoff for rate limiting 
 
 | Version | Date       | Pull Request                                             | Subject                                                                                                                                                                    |
 |:--------|:-----------|:---------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 0.7.2 | 2026-04-21 | [68756](https://github.com/airbytehq/airbyte/pull/68756) | Update dependencies |
 | 0.7.1 | 2026-04-02 | [76036](https://github.com/airbytehq/airbyte/pull/76036) | Fix `reduce_range()` to actually halve slice size on ChunkedEncodingError retry |
 | 0.7.0 | 2026-03-24 | [74379](https://github.com/airbytehq/airbyte/pull/74379) | Add configurable lookback window to prevent silent data loss from Iterable Export API eventual consistency |
 | 0.6.54 | 2026-03-03 | [74256](https://github.com/airbytehq/airbyte/pull/74256) | Filter duplicate records in export streams during incremental syncs |
