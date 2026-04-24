@@ -23,7 +23,7 @@ def load_config(config_path: str = TEST_CONFIG_LEGACY_PATH) -> Mapping[str, Any]
 
 def test_config_migration(requests_mock):
     requests_mock.get(
-        "https://slack.com/api/users.list?limit=1000",
+        "https://slack.com/api/users.list?limit=200",
         json={"users": [{"id": 1}]},
         status_code=200,
     )
@@ -36,7 +36,7 @@ def test_config_migration(requests_mock):
 
 def test_config_not_migrated(requests_mock):
     requests_mock.get(
-        "https://slack.com/api/users.list?limit=1000",
+        "https://slack.com/api/users.list?limit=200",
         json={"users": [{"id": 1}]},
         status_code=200,
     )

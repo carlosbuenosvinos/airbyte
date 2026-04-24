@@ -235,12 +235,12 @@ def tesadfst_threads_and_messages_api_budget(
     )
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.history?limit=1000&channel=airbyte-for-beginners",
+        "https://slack.com/api/conversations.history?limit=200&channel=airbyte-for-beginners",
         [{"json": {"messages": messages}}, {"json": {"messages": []}}],
     )
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.history?limit=1000&channel=good-reads",
+        "https://slack.com/api/conversations.history?limit=200&channel=good-reads",
         [{"json": {"messages": messages}}, {"json": {"messages": []}}],
     )
 

@@ -65,12 +65,12 @@ def test_threads_stream_slices(requests_mock, authenticator, token_config, start
 
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.history?limit=1000&channel=airbyte-for-beginners",
+        "https://slack.com/api/conversations.history?limit=200&channel=airbyte-for-beginners",
         [{"json": {"messages": messages}}, {"json": {"messages": []}}],
     )
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.history?limit=1000&channel=good-reads",
+        "https://slack.com/api/conversations.history?limit=200&channel=good-reads",
         [{"json": {"messages": messages}}, {"json": {"messages": []}}],
     )
 
@@ -94,22 +94,22 @@ def test_threads_stream_slices(requests_mock, authenticator, token_config, start
 def test_get_updated_state(requests_mock, authenticator, token_config, current_state, latest_record, expected_state):
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.history?limit=1000&channel=airbyte-for-beginners",
+        "https://slack.com/api/conversations.history?limit=200&channel=airbyte-for-beginners",
         [{"json": {"messages": [{"ts": 1507866847, "reply_count": 1}]}}, {"json": {"messages": []}}],
     )
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.history?limit=1000&channel=good-reads",
+        "https://slack.com/api/conversations.history?limit=200&channel=good-reads",
         [{"json": {"messages": [{"ts": 1507866847, "reply_count": 1}]}}, {"json": {"messages": []}}],
     )
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.replies?channel=good-reads&limit=1000&ts=1507866847",
+        "https://slack.com/api/conversations.replies?channel=good-reads&limit=200&ts=1507866847",
         [{"json": {"messages": [latest_record]}}, {"json": {"messages": []}}],
     )
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.replies?channel=airbyte-for-beginners&limit=1000&ts=1507866847",
+        "https://slack.com/api/conversations.replies?channel=airbyte-for-beginners&limit=200&ts=1507866847",
         [{"json": {"messages": [latest_record]}}, {"json": {"messages": []}}],
     )
     catalog = ConfiguredAirbyteCatalogSerializer.load(
@@ -141,18 +141,18 @@ def test_threads_request_params(authenticator, token_config):
 def test_threads_parse_response(requests_mock, authenticator, token_config):
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.history?limit=1000&channel=airbyte-for-beginners",
+        "https://slack.com/api/conversations.history?limit=200&channel=airbyte-for-beginners",
         [{"json": {"messages": [{"ts": 1507866847, "reply_count": 1}]}}, {"json": {"messages": []}}],
     )
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.history?limit=1000&channel=good-reads",
+        "https://slack.com/api/conversations.history?limit=200&channel=good-reads",
         [{"json": {"messages": [{"ts": 1507866847, "reply_count": 1}]}}, {"json": {"messages": []}}],
     )
 
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.replies?channel=airbyte-for-beginners&limit=1000&ts=1507866847",
+        "https://slack.com/api/conversations.replies?channel=airbyte-for-beginners&limit=200&ts=1507866847",
         [
             {
                 "json": {
@@ -176,7 +176,7 @@ def test_threads_parse_response(requests_mock, authenticator, token_config):
     )
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.replies?channel=good-reads&limit=1000&ts=1507866847",
+        "https://slack.com/api/conversations.replies?channel=good-reads&limit=200&ts=1507866847",
         [
             {"json": {}},
         ],
@@ -206,7 +206,7 @@ def test_threads_parse_response(requests_mock, authenticator, token_config):
 def test_backoff(requests_mock, token_config, authenticator, headers, expected_result):
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.replies?channel=airbyte-for-beginners&limit=1000&ts=1507866847",
+        "https://slack.com/api/conversations.replies?channel=airbyte-for-beginners&limit=200&ts=1507866847",
         [
             {"json": {"message": "rate limited"}, "headers": headers, "status_code": 429},
             {
@@ -230,18 +230,18 @@ def test_backoff(requests_mock, token_config, authenticator, headers, expected_r
         ],
     )
     requests_mock.get(
-        url="https://slack.com/api/conversations.replies?channel=good-reads&limit=1000&ts=1507866847",
+        url="https://slack.com/api/conversations.replies?channel=good-reads&limit=200&ts=1507866847",
         status_code=200,
         json={"json": {"messages": []}},
     )
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.history?limit=1000&channel=airbyte-for-beginners",
+        "https://slack.com/api/conversations.history?limit=200&channel=airbyte-for-beginners",
         [{"json": {"messages": [{"ts": 1507866847, "reply_count": 1}]}}, {"json": {"messages": []}}],
     )
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.history?limit=1000&channel=good-reads",
+        "https://slack.com/api/conversations.history?limit=200&channel=good-reads",
         [{"json": {"messages": [{"ts": 1507866847, "reply_count": 1}]}}, {"json": {"messages": []}}],
     )
 
@@ -275,7 +275,7 @@ def test_threads_stream_skips_messages_without_replies_when_enabled(requests_moc
     # Channel 1: one message with replies, one with reply_count=0, one with reply_count=None
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.history?limit=1000&channel=airbyte-for-beginners",
+        "https://slack.com/api/conversations.history?limit=200&channel=airbyte-for-beginners",
         [
             {
                 "json": {
@@ -292,7 +292,7 @@ def test_threads_stream_skips_messages_without_replies_when_enabled(requests_moc
     # Channel 2: one message with missing reply_count key entirely (should be filtered)
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.history?limit=1000&channel=good-reads",
+        "https://slack.com/api/conversations.history?limit=200&channel=good-reads",
         [
             {"json": {"messages": [{"ts": 1577866844}]}},
             {"json": {"messages": []}},
@@ -321,7 +321,7 @@ def test_threads_stream_includes_all_messages_by_default(requests_mock, token_co
     # Channel 1: messages with various reply_count values including None
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.history?limit=1000&channel=airbyte-for-beginners",
+        "https://slack.com/api/conversations.history?limit=200&channel=airbyte-for-beginners",
         [
             {
                 "json": {
@@ -338,7 +338,7 @@ def test_threads_stream_includes_all_messages_by_default(requests_mock, token_co
     # Channel 2: one message with missing reply_count key
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.history?limit=1000&channel=good-reads",
+        "https://slack.com/api/conversations.history?limit=200&channel=good-reads",
         [
             {"json": {"messages": [{"ts": 1577866844}]}},
             {"json": {"messages": []}},
@@ -364,7 +364,7 @@ def test_threads_stream_no_replies_api_calls_skipped_when_enabled(requests_mock,
     # Channel 1: one message with replies (reply_count=3), one without (reply_count=0)
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.history?limit=1000&channel=airbyte-for-beginners",
+        "https://slack.com/api/conversations.history?limit=200&channel=airbyte-for-beginners",
         [
             {
                 "json": {
@@ -380,7 +380,7 @@ def test_threads_stream_no_replies_api_calls_skipped_when_enabled(requests_mock,
     # Channel 2: one message with reply_count=None (should be filtered)
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.history?limit=1000&channel=good-reads",
+        "https://slack.com/api/conversations.history?limit=200&channel=good-reads",
         [
             {"json": {"messages": [{"ts": "1577866844.000000", "reply_count": None}]}},
             {"json": {"messages": []}},
@@ -389,7 +389,7 @@ def test_threads_stream_no_replies_api_calls_skipped_when_enabled(requests_mock,
     # Only the message with reply_count=3 should trigger a conversations.replies call
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.replies?channel=airbyte-for-beginners&limit=1000&ts=1577866844.000000",
+        "https://slack.com/api/conversations.replies?channel=airbyte-for-beginners&limit=200&ts=1577866844.000000",
         json={
             "messages": [
                 {
@@ -448,7 +448,7 @@ def test_channels_stream_with_autojoin(token_config, requests_mock) -> None:
     ]
     requests_mock.register_uri(
         "GET",
-        "https://slack.com/api/conversations.list?limit=1000&types=public_channel",
+        "https://slack.com/api/conversations.list?limit=200&types=public_channel",
         json={"channels": expected},
     )
     state = StateBuilder().with_stream_state("channels", {}).build()
@@ -494,6 +494,15 @@ def test_should_retry(token_config, status_code, expected):
     mocked_response.ok = status_code == 200
     mocked_response.headers = {"Content-Type": "application/json"}
     assert get_retriever(stream).requester.error_handler.interpret_response(mocked_response).response_action == expected
+
+
+@pytest.mark.parametrize(
+    "stream_name",
+    ("users", "channels", "channel_members", "channel_messages", "threads"),
+)
+def test_default_paginator_page_size_is_200(token_config, stream_name) -> None:
+    stream = get_stream_by_name(stream_name, token_config)
+    assert get_retriever(stream).paginator.pagination_strategy.page_size == 200
 
 
 def test_channels_stream_with_include_private_channels_false(token_config) -> None:
