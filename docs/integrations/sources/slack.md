@@ -197,7 +197,7 @@ If your Threads stream syncs are slow, consider enabling the **Ignore messages w
 
 | Version    | Date       | Pull Request                                             | Subject                                                                                                                                                                |
 |:-----------|:-----------|:---------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 3.2.0 | 2026-04-24 | [](https://github.com/airbytehq/airbyte/pull/) | Exclude archived channels by default; add `include_archived_channels` config option to opt in |
+| 3.2.0 | 2026-04-24 | [76982](https://github.com/airbytehq/airbyte/pull/76982) | Exclude archived channels by default; add `include_archived_channels` config option to opt in |
 | 3.1.21 | 2026-04-20 | [76477](https://github.com/airbytehq/airbyte/pull/76477) | Scope the non-member channel filter to only `channel_messages` and `threads` so `channel_members` and `channels` keep syncing every public channel |
 | 3.1.20 | 2026-04-21 | [76760](https://github.com/airbytehq/airbyte/pull/76760) | Update dependencies |
 | 3.1.19 | 2026-04-15 | [76297](https://github.com/airbytehq/airbyte/pull/76297) | Rename "API Token" to "Bot Token" in connector spec and docs |
